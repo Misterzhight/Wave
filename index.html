@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <style>
+    #btnarea{
+      text-align: center;
+      padding-top: 50px;
+    }
+    .btns{
+      width:150px;
+      height: 35px;
+      border-radius: 10px;
+      font-size: 20px;
+    }
+    #screenAmount{
+      font-size: 20px;
+      background: greenyellow;
+      color: black;
+    }
+    .screen{
+      font-size: 25px;
+      background: orangered;
+      color: white;
+      padding-left: 15px;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+    *{
+      padding: 0px;
+      margin: 0px;
+    }
+    .history{
+      text-align: center;
+      padding-top: 30px;
+    }
+    #userVal{
+      outline: none;
+      width:220px;
+    }
+    #btnrecharge{
+      background: green;
+      color:white;
+    }
+    #btnretrieve{
+      background: red;
+      color:white;
+    }
+     #btnhist{
+      background: yellow;
+      color:black;
+    }
+    #btnplay {
+      background: deepskyblue;
+      color: white;
+    }
+    p{
+      font-family: Georgia, 'Times New Roman', Times, serif;
+    }
+  </style>
+</head>
+
+<body>
+   <div id="screenName"class="screen">
+   </div>
+   <div id="screenTel"class="screen">
+   </div>
+   <div id="screenAmount"class="screen">
+     Your balance is 0.00FCFA
+   </div>
+   <div id="btnarea">
+      <button onclick="recharge()"class="btns"id="btnrecharge">Recharge </button><br><br>
+      <button onclick="retrieve()"class="btns"id="btnretrieve">Retrieve</button><br><br>
+      <button onclick="rel()"class="btns"id="btnhist">history</button><br><br>
+      
+   </div>
+   <div id="history">
+     <h3>press on the history button to see your last transaction history</h3>
+   </div><br>
+  <div class="history">
+    <p>Guess number between 0 et 2</p>
+     <input type="number"id="userVal"placeholder="Please enter number before playing!!!"><br><br>
+     <button id="btnplay" class="btns" onclick="play()">Play</button>
+   </div>
+     <p>Si vous gagnez, une somme de 3 000 FCFA sera ajoutée sur votre compte, mais si vous perdez, une somme de 300 FCFA sera retranchée sur votre compte.</p>
+     <p>Pour faire vos rétrait ou dépôt, vous devez appeler le numéro suivant: +225-05-46-34-28-95</p>
+     <p>Le code de rechargement est: monmotdepass. Merci pour votre compréhension.</p>
+  
+ 
+   <script>
+     let screenName = document.getElementById("screenName")
+     let screenNTel = document.getElementById("screenTel")
+     let screenAmount = document.getElementById("screenAmount")
+     let pin = 1234;
+     localStorage.setItem("Pin", pin)
+     
+     
+     let dataName = localStorage.getItem("Name")
+     let dataTel = localStorage.getItem("Tel")
+     screenName.innerHTML = dataName;
+     screenTel.innerHTML = dataTel;
+     function recharge(){
+       let pin = localStorage.getItem("Pin")
+      let userPin = prompt("Enter recharge pin")
+      if(userPin==pin){
+        let amount = parseInt(prompt("Enter amount"))
+        localStorage.setItem("Balance", amount)
+        let userAmount=amount;
+        localStorage.setItem("userAmount", userAmount)
+        let date = new Date()
+       localStorage.setItem("Date", date)
+        
+      }else{
+        alert("Incorrect pin please try again!")
+      }
+     }
+     let amount = localStorage.getItem("Balance")
+     screenAmount.innerHTML="Your balance is: €"+" "+amount+ ".00 ";
+     function retrieve(){
+       let amount = localStorage.getItem("Balance")
+       let myAmount = parseInt(prompt("Enter amount to retrieve"))
+       if(myAmount<=0||myAmount>amount){
+         alert("Something went wrong, please try again")
+     }else{
+       if(confirm("Do you want to continue?, make sure you entered number greater than 0")){
+         let newBalance = amount-myAmount;
+       localStorage.setItem("Balance", newBalance)
+       }
+     }
+     }
+     function rel(){
+      
+     let dataDate = localStorage.getItem("Date")
+     let userAmount = localStorage.getItem("userAmount")
+     document.getElementById("history").innerHTML=dataDate+" "+"The recharged amount is"+" "+ userAmount+" "+"FCFA";
+     }
+     
+    
+   </script>
+   <script src="play.js"></script>
+</body>
+ 
+</html>
